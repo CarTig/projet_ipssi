@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}<div class="container">
+    <h1>{{marque.nom}}</h1>
+    <p>{{marque.date}}</p>
+    <p>{{marque.logo}}</p>
+    {{form(edit)}}
+    </div>
+{% endblock %}
