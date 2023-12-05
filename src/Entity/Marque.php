@@ -7,8 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 #[ORM\Entity(repositoryClass: MarqueRepository::class)]
+#[UniqueEntity('nom')]
+#[HasLifecycleCallbacks]
 class Marque
 {
     #[ORM\Id]
@@ -102,5 +108,26 @@ class Marque
         }
 
         return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setImage(?string $logo): static
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    #[ORM\PostRemove]
+    public function deleteImage()
+    {
+        if($this->logo != null) {
+            unlink(__DIR__ . '/../../projet_ipssi/public/uploads' . $this->logo);
+        }
+        return true;
     }
 }

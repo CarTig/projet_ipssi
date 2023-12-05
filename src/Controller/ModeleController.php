@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Modele;
+use App\Form\ModeleType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,5 +56,19 @@ class ModeleController extends AbstractController
             'marque' => $modele,
             'edit' => $form -> createView()
         ]);
-    }
+        }
+
+        #[Route('/delete/{id}', name:'delete_modele')]
+        public function delete( Modele $modele = null , EntityManagerInterface $em ){
+            if($modele == null) {
+            $this->addFlash('danger','Modèle introuvable');
+            return $this->redirectToRoute('app_modele');
+            }
+ 
+        $em->remove($modele);
+        $em->flush();
+ 
+        $this->addFlash('warning','Modèle Supprimé');
+        return $this->redirectToRoute('app_modele');
+        }
 }

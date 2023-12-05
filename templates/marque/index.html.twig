@@ -16,10 +16,10 @@
             </tr>
         </thead>
         <tbody>
-        {% for mar in marques %}
+        {% for mar in marque %}
             <tr>
                 <td>{{mar.nom}}</td>
-                <td>{{mar.date}} </td>
+                {# <td>{{mar.createdAt|date('Y-m-d') }}</td> #}
                 <td>{{mar.logo}} </td>
                 <td>
                 <a href="{{path('marque', {"id": mar.id})}}">Afficher
